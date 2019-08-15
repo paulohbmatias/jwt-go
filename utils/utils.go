@@ -6,6 +6,7 @@ import (
 	"github.com/paulohbmatias/jwt-go/models"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -21,7 +22,7 @@ func ResponseJSON(w http.ResponseWriter, data interface{}){
 }
 
 func GenerateToken(user models.User) (string, error){
-	secret := "secret"
+	secret := os.Getenv("SECRET")
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": user.Email,
@@ -51,7 +52,7 @@ func TokenVerifyMiddleWare(next http.HandlerFunc) http.HandlerFunc{
 					return nil, fmt.Errorf("There was error")
 				}
 
-				return []byte("secret"), nil
+				return []byte(os.Getenv("SECRET")), nil
 			})
 			if err != nil{
 				errorModel.Message = err.Error()
