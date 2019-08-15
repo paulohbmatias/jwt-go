@@ -23,7 +23,7 @@ func init() {
 
 func main() {
 	db = driver.ConnectDB()
-
+	//teste
 	router := mux.NewRouter()
 
 	port := os.Getenv("PORT")
